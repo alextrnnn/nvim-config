@@ -7,7 +7,7 @@ local opts = { noremap = true, silent = true }
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
-map("t", "jk", [[<C-\><C-n>]], opts)
+-- map("t", "jk", [[<C-\><C-n>]], opts)
 vim.keymap.set("n", "<leader>ca", function()
   vim.lsp.buf.code_action()
 end, { desc = "LSP Code Action" })
