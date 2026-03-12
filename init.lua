@@ -3,7 +3,17 @@ vim.g.mapleader = " "
 vim.lsp.inlay_hint.enable(true)
 vim.lsp.enable "rust_analyzer"
 vim.lsp.enable "postgres_lsp"
--- bootstrap lazy and all plugins
+vim.lsp.enable "basedpyright"
+vim.lsp.enable "ts_ls"
+vim.opt.scrolloff = 10
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    if vim.bo.buftype == "terminal" then
+      vim.cmd "startinsert"
+    end
+  end,
+}) -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
 if not vim.uv.fs_stat(lazypath) then
@@ -25,7 +35,7 @@ require("lazy").setup({
   },
   {
     "kylechui/nvim-surround",
-    version = "^4.0.0", -- Use for stability; omit to use `main` branch for the latest features
+    version = "main", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
     -- Optional: See `:h nvim-surround.configuration` and `:h nvim-surround.setup` for details
     -- config = function()
@@ -59,30 +69,4 @@ require "autocmds"
 
 vim.schedule(function()
   require "mappings"
-end)
-local group = vim.api.nvim_create_augroup("OoO", {})
-
-local function au(typ, pattern, cmdOrFn)
-  if type(cmdOrFn) == "function" then
-    vim.api.nvim_create_autocmd(typ, { pattern = pattern, callback = cmdOrFn, group = group })
-  else
-    vim.api.nvim_create_autocmd(typ, { pattern = pattern, command = cmdOrFn, group = group })
-  end
-end
-
-au({ "CursorHold", "InsertLeave" }, nil, function()
-  local opts = {
-    focusable = false,
-    scope = "cursor",
-    close_events = { "BufLeave", "CursorMoved", "InsertEnter" },
-  }
-  vim.diagnostic.open_float(nil, opts)
-end)
-
-au("InsertEnter", nil, function()
-  vim.diagnostic.enable(false)
-end)
-
-au("InsertLeave", nil, function()
-  vim.diagnostic.enable(true)
 end)

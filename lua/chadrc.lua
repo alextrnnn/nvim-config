@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "darcula-dark",
+  theme = "aquarium",
 
   -- hl_override = {
   -- 	Comment = { italic = true },
@@ -20,5 +20,11 @@ M.base46 = {
 --          lazyload = false
 --      }
 -- }
+M.term = {
+
+  sizes = {
+    vsp = 0.5, -- 50% width
+  },
+}
 
 return M
