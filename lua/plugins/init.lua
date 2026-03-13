@@ -173,4 +173,12 @@ return {
     --     })
     -- end
   },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      incremental_selection = {
+        enable = true,
+      },
+    },
+  },
 }
